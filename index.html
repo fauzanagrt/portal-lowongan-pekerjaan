@@ -1,388 +1,971 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>lowongan pekerjaan</title>
-<!-- Google Fonts: Import 2 font utama (Syne untuk judul/logo, DM Sans untuk body) -->
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
-<style>
-  /* RESET CSS: menghapus margin/padding bawaan browser, dan membuat semua elemen menggunakan border-box agar ukuran konsisten */
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>lowongan pekerjaan</title>
+  <!-- Google Fonts: Import 2 font utama (Syne untuk judul/logo, DM Sans untuk body) -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap"
+    rel="stylesheet">
+  <style>
+    /* RESET CSS: menghapus margin/padding bawaan browser, dan membuat semua elemen menggunakan border-box agar ukuran konsisten */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-  /* ROOT VARIABLES: menyimpan warna dan ukuran global (seperti tema gelap, accent ungu, radius, dll) */
-  :root {
-    --bg: #16161f;          /* warna latar paling gelap */
-    --bg2: #1a1a24;
-    --bg3: #16161f;
-    --card: #1a1a24;        /* warna card lowongan */
-    --card-hover: #1f1f2e;  /* warna card saat di-hover */
-    --border: rgba(255,255,255,0.08);
-    --border-hover: rgba(255,255,255,0.15);
-    --accent: #7c6ff7;      /* warna ungu utama (tombol, highlight) */
-    --accent2: #a78bfa;     /* ungu lebih muda */
-    --accent-glow: rgba(124,111,247,0.15);
-    --green: #34d399;       /* hijau untuk gaji / status */
-    --green-bg: rgba(52,211,153,0.1);
-    --amber: #fbbf24;
-    --amber-bg: rgba(251,191,36,0.1);
-    --red: #f87171;
-    --red-bg: rgba(248,113,113,0.1);
-    --text: #f1f0ff;        /* teks utama putih kebiruan */
-    --text2: #9d9bba;       /* teks sekunder abu kebiruan */
-    --text3: #5e5c7a;       /* teks redup (placeholder, count) */
-    --font-display: 'Syne', sans-serif;
-    --font-body: 'DM Sans', sans-serif;
-    --r: 12px;              /* border radius standar */
-    --r-sm: 8px;
-    --r-lg: 18px;
-  }
+    /* ROOT VARIABLES: menyimpan warna dan ukuran global (seperti tema gelap, accent ungu, radius, dll) */
+    :root {
+      --bg: #16161f;
+      /* warna latar paling gelap */
+      --bg2: #1a1a24;
+      --bg3: #16161f;
+      --card: #1a1a24;
+      /* warna card lowongan */
+      --card-hover: #1f1f2e;
+      /* warna card saat di-hover */
+      --border: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(255, 255, 255, 0.15);
+      --accent: #7c6ff7;
+      /* warna ungu utama (tombol, highlight) */
+      --accent2: #a78bfa;
+      /* ungu lebih muda */
+      --accent-glow: rgba(124, 111, 247, 0.15);
+      --green: #34d399;
+      /* hijau untuk gaji / status */
+      --green-bg: rgba(52, 211, 153, 0.1);
+      --amber: #fbbf24;
+      --amber-bg: rgba(251, 191, 36, 0.1);
+      --red: #f87171;
+      --red-bg: rgba(248, 113, 113, 0.1);
+      --text: #f1f0ff;
+      /* teks utama putih kebiruan */
+      --text2: #9d9bba;
+      /* teks sekunder abu kebiruan */
+      --text3: #5e5c7a;
+      /* teks redup (placeholder, count) */
+      --font-display: 'Syne', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+      --r: 12px;
+      /* border radius standar */
+      --r-sm: 8px;
+      --r-lg: 18px;
+    }
 
-  /* GAYA DASAR BODY */
-  body {
-    font-family: var(--font-body);
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    font-size: 15px;
-    line-height: 1.6;
-  }
+    /* GAYA DASAR BODY */
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      font-size: 15px;
+      line-height: 1.6;
+    }
 
-  /* ========== NAVIGASI (sticky / menempel di atas) ========== */
-  nav {
-    position: sticky; top: 0; z-index: 100;   /* selalu di atas saat scroll */
-    background: rgba(10,10,15,0.85);
-    backdrop-filter: blur(20px);              /* efek blur kaca */
-    border-bottom: 1px solid var(--border);
-    padding: 0 2rem;
-    display: flex; align-items: center; justify-content: space-between;
-    height: 60px;
-  }
-  .logo { font-family: var(--font-display); font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
-  .logo span { color: var(--accent2); }
-  .nav-links { display: flex; gap: 1.5rem; align-items: center; }
-  .nav-links a { color: var(--text2); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
-  .nav-links a:hover { color: var(--text); }
-  .btn-nav {
-    background: var(--accent); color: #fff; border: none; cursor: pointer;
-    padding: 8px 18px; border-radius: var(--r-sm);
-    font-family: var(--font-body); font-size: 14px; font-weight: 500;
-    transition: background 0.2s, transform 0.1s;
-  }
-  .btn-nav:hover { background: var(--accent2); transform: translateY(-1px); }
+    /* ========== NAVIGASI (sticky / menempel di atas) ========== */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      /* selalu di atas saat scroll */
+      background: rgba(10, 10, 15, 0.85);
+      backdrop-filter: blur(20px);
+      /* efek blur kaca */
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
 
-  /* ========== HERO SECTION (bagian judul & pencarian utama) ========== */
-  .hero {
-    padding: 80px 2rem 60px;
-    max-width: 900px; margin: 0 auto;
-    text-align: center;
-    position: relative;
-  }
-  /* Efek glow di belakang hero */
-  .hero::before {
-    content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-    width: 600px; height: 300px;
-    background: radial-gradient(ellipse, rgba(124,111,247,0.12) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .hero-badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: var(--accent-glow); border: 1px solid rgba(124,111,247,0.3);
-    color: var(--accent2); padding: 6px 14px; border-radius: 100px;
-    font-size: 13px; font-weight: 500; margin-bottom: 24px;
-  }
-  .hero-badge-dot {
-    width: 7px; height: 7px; border-radius: 50%; background: var(--green);
-    animation: pulse 2s infinite;
-  }
-  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-  h1 {
-    font-family: var(--font-display);
-    font-size: clamp(36px, 6vw, 64px);
-    font-weight: 800; line-height: 1.05; letter-spacing: -2px;
-    margin-bottom: 18px;
-  }
-  h1 em { color: var(--accent2); font-style: normal; }
-  .hero-sub { color: var(--text2); font-size: 17px; max-width: 500px; margin: 0 auto 36px; }
+    .logo {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
 
-  /* ========== SEARCH BAR ========== */
-  .search-wrap {
-    background: var(--card); border: 1px solid var(--border); border-radius: var(--r-lg);
-    padding: 10px; display: flex; gap: 10px; flex-wrap: wrap;
-    max-width: 720px; margin: 0 auto 16px;
-    transition: border-color 0.2s;
-  }
-  .search-wrap:focus-within { border-color: var(--accent); } /* jika ada input focus, border berubah */
-  .search-field {
-    flex: 1; min-width: 150px; display: flex; align-items: center; gap: 10px;
-    background: var(--bg3); border-radius: var(--r-sm); padding: 10px 14px;
-  }
-  .search-field input {
-    background: none; border: none; outline: none; color: var(--text);
-    font-family: var(--font-body); font-size: 14px; width: 100%;
-  }
-  .search-field input::placeholder { color: var(--text3); }
-  .btn-search {
-    background: var(--accent); color: #fff; border: none; cursor: pointer;
-    padding: 10px 22px; border-radius: var(--r-sm);
-    font-family: var(--font-display); font-size: 14px; font-weight: 600;
-    white-space: nowrap; transition: background 0.2s;
-  }
-  .btn-search:hover { background: var(--accent2); transform: translateY(-1px); }
-  .hero-stats {
-    display: flex; gap: 24px; justify-content: center;
-    color: var(--text3); font-size: 13px; margin-top: 10px;
-  }
-  .hero-stats strong { color: var(--text2); }
+    .logo span {
+      color: var(--accent2);
+    }
 
-  /* ========== FILTER TAGS (populer) ========== */
-  .filter-area {
-    max-width: 1100px; margin: 0 auto; padding: 0 2rem 28px;
-    display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
-  }
-  .filter-label { color: var(--text3); font-size: 13px; margin-right: 4px; }
-  .tag {
-    background: var(--card); border: 1px solid var(--border); color: var(--text2);
-    padding: 6px 14px; border-radius: 100px; font-size: 13px; cursor: pointer;
-    transition: all 0.15s;
-  }
-  .tag:hover, .tag.active { background: var(--accent-glow); border-color: var(--accent); color: var(--accent2); }
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
 
-  /* ========== LAYOUT GRID (sidebar + daftar lowongan) ========== */
-  .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem 80px; }
-  .layout { display: grid; grid-template-columns: 260px 1fr; gap: 24px; align-items: start; }
+    .nav-links a {
+      color: var(--text2);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
 
-  /* ========== SIDEBAR (filter-filter ceklis, range gaji) ========== */
-  .sidebar { position: sticky; top: 80px; }
-  .sidebar-card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: var(--r-lg); padding: 20px; margin-bottom: 16px;
-  }
-  .sidebar-title {
-    font-family: var(--font-display); font-size: 13px; font-weight: 700;
-    text-transform: uppercase; color: var(--text3); margin-bottom: 14px;
-  }
-  .checkbox-group { display: flex; flex-direction: column; gap: 10px; }
-  .checkbox-item {
-    display: flex; align-items: center; justify-content: space-between; cursor: pointer;
-  }
-  .checkbox-item label { display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 14px; color: var(--text2); }
-  .checkbox-item input[type=checkbox] { width: 16px; height: 16px; border-radius: 4px; accent-color: var(--accent); cursor: pointer; }
-  .count-badge { background: var(--bg3); color: var(--text3); padding: 2px 8px; border-radius: 100px; font-size: 11px; }
-  .salary-range { display: flex; flex-direction: column; gap: 10px; }
-  .salary-range input[type=range] { accent-color: var(--accent); width: 100%; }
-  .salary-labels { display: flex; justify-content: space-between; font-size: 12px; color: var(--text3); }
+    .nav-links a:hover {
+      color: var(--text);
+    }
 
-  /* ========== JOB CARDS ========== */
-  .jobs-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-  .jobs-count { font-size: 14px; color: var(--text2); }
-  .jobs-count strong { color: var(--text); }
-  .sort-select {
-    background: var(--card); border: 1px solid var(--border); color: var(--text2);
-    padding: 7px 12px; border-radius: var(--r-sm); font-size: 13px; cursor: pointer;
-  }
-  .jobs-list { display: flex; flex-direction: column; gap: 14px; }
-  .job-card {
-    background: var(--card); border: 1px solid var(--border); border-radius: var(--r-lg);
-    padding: 22px 24px; transition: all 0.2s; cursor: pointer;
-    position: relative; overflow: hidden;
-  }
-  /* garis aksen di sebelah kiri untuk efek modern */
-  .job-card::before {
-    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
-    width: 3px; background: transparent; transition: background 0.2s;
-  }
-  .job-card:hover { border-color: var(--border-hover); background: var(--card-hover); transform: translateY(-2px); }
-  .job-card:hover::before { background: var(--accent); }
-  .job-card.featured { border-color: rgba(124,111,247,0.3); }
-  .job-card.featured::before { background: var(--accent); }
-  
-  .job-top { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 14px; }
-  .company-logo { width: 48px; height: 48px; border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0; }
-  .job-title-group { flex: 1; }
-  .job-title { font-family: var(--font-display); font-size: 17px; font-weight: 700; margin-bottom: 3px; }
-  .company-name { color: var(--text2); font-size: 14px; }
-  .job-meta { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
-  .meta-chip {
-    display: flex; align-items: center; gap: 6px; background: var(--bg3);
-    border: 1px solid var(--border); color: var(--text3); font-size: 12px;
-    padding: 4px 10px; border-radius: 100px;
-  }
-  .job-desc { color: var(--text2); font-size: 13px; line-height: 1.6; margin-bottom: 16px; }
-  .job-skills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
-  .skill-tag { background: var(--bg3); color: var(--text2); font-size: 12px; padding: 4px 12px; border-radius: var(--r-sm); border: 1px solid var(--border); }
-  .job-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 16px; border-top: 1px solid var(--border); }
-  .salary { font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--green); }
-  .job-actions { display: flex; gap: 10px; align-items: center; }
-  .time-ago { color: var(--text3); font-size: 12px; }
-  .btn-save {
-    background: none; border: 1px solid var(--border); color: var(--text3); 
-    padding: 8px 12px; border-radius: var(--r-sm); cursor: pointer; font-size: 13px;
-    display: flex; align-items: center; gap: 6px; transition: all 0.15s;
-  }
-  .btn-save:hover { border-color: var(--amber); color: var(--amber); }
-  .btn-apply {
-    background: var(--accent); color: #fff; border: none; cursor: pointer;
-    padding: 8px 20px; border-radius: var(--r-sm); font-size: 14px; font-weight: 500;
-    transition: all 0.15s;
-  }
-  .btn-apply:hover { background: var(--accent2); transform: translateY(-1px); }
+    .btn-nav {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      padding: 8px 18px;
+      border-radius: var(--r-sm);
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      transition: background 0.2s, transform 0.1s;
+    }
 
-  /* status badges: hot, new, open */
-  .status-badge { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.4px; }
-  .status-open { background: var(--green-bg); color: var(--green); }
-  .status-hot { background: var(--red-bg); color: var(--red); }
-  .status-new { background: var(--amber-bg); color: var(--amber); }
+    .btn-nav:hover {
+      background: var(--accent2);
+      transform: translateY(-1px);
+    }
 
-  /* PAGINATION (untuk navigasi halaman, hanya statis demo) */
-  .pagination { display: flex; gap: 8px; justify-content: center; margin-top: 32px; align-items: center; }
-  .page-btn {
-    background: var(--card); border: 1px solid var(--border); color: var(--text2);
-    width: 38px; height: 38px; border-radius: var(--r-sm); cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .page-btn:hover { border-color: var(--accent); color: var(--accent2); }
-  .page-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+    /* ========== HERO SECTION (bagian judul & pencarian utama) ========== */
+    .hero {
+      padding: 80px 2rem 60px;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+    }
 
-  /* MODAL (popup detail lowongan & form lamaran) */
-  .modal-overlay {
-    display: none; position: fixed; inset: 0; z-index: 200;
-    background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
-    align-items: center; justify-content: center; padding: 20px;
-  }
-  .modal-overlay.open { display: flex; }
-  .modal {
-    background: var(--card); border: 1px solid var(--border); border-radius: 20px;
-    width: 100%; max-width: 560px; max-height: 85vh; overflow-y: auto;
-    padding: 32px; position: relative; animation: slide-up 0.25s ease;
-  }
-  @keyframes slide-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-  .modal-close {
-    position: absolute; top: 20px; right: 20px; background: var(--bg3);
-    border: 1px solid var(--border); color: var(--text2); width: 32px; height: 32px;
-    border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;
-  }
-  .modal-close:hover { border-color: var(--red); color: var(--red); }
-  .modal h2 { font-family: var(--font-display); font-size: 22px; font-weight: 800; margin-bottom: 6px; }
-  .modal-company { color: var(--text2); margin-bottom: 20px; }
-  .modal-section { margin-bottom: 20px; }
-  .modal-section-title { font-family: var(--font-display); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text3); margin-bottom: 10px; }
-  .modal-section p, .modal-section ul { color: var(--text2); font-size: 14px; line-height: 1.7; }
-  .modal-section ul { padding-left: 18px; }
-  .modal-footer { display: flex; gap: 12px; margin-top: 24px; }
-  .modal-footer .btn-apply { flex: 1; padding: 12px; font-size: 15px; font-weight: 600; }
+    /* Efek glow di belakang hero */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 300px;
+      background: radial-gradient(ellipse, rgba(124, 111, 247, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
 
-  /* FORM di dalam modal untuk lamaran */
-  .form-group { margin-bottom: 14px; }
-  .form-group label { display: block; font-size: 13px; color: var(--text3); margin-bottom: 6px; font-weight: 500; }
-  .form-group input, .form-group textarea {
-    width: 100%; background: var(--bg3); border: 1px solid var(--border); color: var(--text);
-    padding: 10px 14px; border-radius: var(--r-sm); font-size: 14px; outline: none;
-  }
-  .form-group input:focus, .form-group textarea:focus { border-color: var(--accent); }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent-glow);
+      border: 1px solid rgba(124, 111, 247, 0.3);
+      color: var(--accent2);
+      padding: 6px 14px;
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 24px;
+    }
 
-  /* TOAST NOTIFICATION (notifikasi kecil di pojok kanan bawah) */
-  .toast {
-    position: fixed; bottom: 30px; right: 30px; z-index: 300;
-    background: var(--card); border: 1px solid var(--green); color: var(--green);
-    padding: 14px 22px; border-radius: var(--r); font-size: 14px; font-weight: 500;
-    transform: translateY(80px); opacity: 0; transition: all 0.3s;
-    display: flex; align-items: center; gap: 10px;
-  }
-  .toast.show { transform: translateY(0); opacity: 1; }
+    .hero-badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse 2s infinite;
+    }
 
-  /* responsive */
-  @media (max-width: 768px) {
-    .layout { grid-template-columns: 1fr; }
-    .sidebar { position: static; }
-    h1 { font-size: 36px; letter-spacing: -1px; }
-    .nav-links { display: none; }
-  }
-</style>
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.4;
+      }
+    }
+
+    h1 {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 6vw, 64px);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -2px;
+      margin-bottom: 18px;
+    }
+
+    h1 em {
+      color: var(--accent2);
+      font-style: normal;
+    }
+
+    .hero-sub {
+      color: var(--text2);
+      font-size: 17px;
+      max-width: 500px;
+      margin: 0 auto 36px;
+    }
+
+    /* ========== SEARCH BAR ========== */
+    .search-wrap {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 10px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      max-width: 720px;
+      margin: 0 auto 16px;
+      transition: border-color 0.2s;
+    }
+
+    .search-wrap:focus-within {
+      border-color: var(--accent);
+    }
+
+    /* jika ada input focus, border berubah */
+    .search-field {
+      flex: 1;
+      min-width: 150px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--bg3);
+      border-radius: var(--r-sm);
+      padding: 10px 14px;
+    }
+
+    .search-field input {
+      background: none;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 14px;
+      width: 100%;
+    }
+
+    .search-field input::placeholder {
+      color: var(--text3);
+    }
+
+    .btn-search {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      padding: 10px 22px;
+      border-radius: var(--r-sm);
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+
+    .btn-search:hover {
+      background: var(--accent2);
+      transform: translateY(-1px);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      color: var(--text3);
+      font-size: 13px;
+      margin-top: 10px;
+    }
+
+    .hero-stats strong {
+      color: var(--text2);
+    }
+
+    /* ========== FILTER TAGS (populer) ========== */
+    .filter-area {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 28px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .filter-label {
+      color: var(--text3);
+      font-size: 13px;
+      margin-right: 4px;
+    }
+
+    .tag {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text2);
+      padding: 6px 14px;
+      border-radius: 100px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .tag:hover,
+    .tag.active {
+      background: var(--accent-glow);
+      border-color: var(--accent);
+      color: var(--accent2);
+    }
+
+    /* ========== LAYOUT GRID (sidebar + daftar lowongan) ========== */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 80px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    /* ========== SIDEBAR (filter-filter ceklis, range gaji) ========== */
+    .sidebar {
+      position: sticky;
+      top: 80px;
+    }
+
+    .sidebar-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .sidebar-title {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 14px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    .checkbox-item label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      color: var(--text2);
+    }
+
+    .checkbox-item input[type=checkbox] {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    .count-badge {
+      background: var(--bg3);
+      color: var(--text3);
+      padding: 2px 8px;
+      border-radius: 100px;
+      font-size: 11px;
+    }
+
+    .salary-range {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .salary-range input[type=range] {
+      accent-color: var(--accent);
+      width: 100%;
+    }
+
+    .salary-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text3);
+    }
+
+    /* ========== JOB CARDS ========== */
+    .jobs-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .jobs-count {
+      font-size: 14px;
+      color: var(--text2);
+    }
+
+    .jobs-count strong {
+      color: var(--text);
+    }
+
+    .sort-select {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text2);
+      padding: 7px 12px;
+      border-radius: var(--r-sm);
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .jobs-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .job-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 22px 24px;
+      transition: all 0.2s;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* garis aksen di sebelah kiri untuk efek modern */
+    .job-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: transparent;
+      transition: background 0.2s;
+    }
+
+    .job-card:hover {
+      border-color: var(--border-hover);
+      background: var(--card-hover);
+      transform: translateY(-2px);
+    }
+
+    .job-card:hover::before {
+      background: var(--accent);
+    }
+
+    .job-card.featured {
+      border-color: rgba(124, 111, 247, 0.3);
+    }
+
+    .job-card.featured::before {
+      background: var(--accent);
+    }
+
+    .job-top {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      margin-bottom: 14px;
+    }
+
+    .company-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--r-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .job-title-group {
+      flex: 1;
+    }
+
+    .job-title {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .company-name {
+      color: var(--text2);
+      font-size: 14px;
+    }
+
+    .job-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .meta-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      color: var(--text3);
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 100px;
+    }
+
+    .job-desc {
+      color: var(--text2);
+      font-size: 13px;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .job-skills {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .skill-tag {
+      background: var(--bg3);
+      color: var(--text2);
+      font-size: 12px;
+      padding: 4px 12px;
+      border-radius: var(--r-sm);
+      border: 1px solid var(--border);
+    }
+
+    .job-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .salary {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--green);
+    }
+
+    .job-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .time-ago {
+      color: var(--text3);
+      font-size: 12px;
+    }
+
+    .btn-save {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text3);
+      padding: 8px 12px;
+      border-radius: var(--r-sm);
+      cursor: pointer;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+
+    .btn-save:hover {
+      border-color: var(--amber);
+      color: var(--amber);
+    }
+
+    .btn-apply {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      padding: 8px 20px;
+      border-radius: var(--r-sm);
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.15s;
+    }
+
+    .btn-apply:hover {
+      background: var(--accent2);
+      transform: translateY(-1px);
+    }
+
+    /* status badges: hot, new, open */
+    .status-badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 100px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .status-open {
+      background: var(--green-bg);
+      color: var(--green);
+    }
+
+    .status-hot {
+      background: var(--red-bg);
+      color: var(--red);
+    }
+
+    .status-new {
+      background: var(--amber-bg);
+      color: var(--amber);
+    }
+
+    /* PAGINATION (untuk navigasi halaman, hanya statis demo) */
+    .pagination {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 32px;
+      align-items: center;
+    }
+
+    .page-btn {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text2);
+      width: 38px;
+      height: 38px;
+      border-radius: var(--r-sm);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .page-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent2);
+    }
+
+    .page-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    /* MODAL (popup detail lowongan & form lamaran) */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 560px;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 32px;
+      position: relative;
+      animation: slide-up 0.25s ease;
+    }
+
+    @keyframes slide-up {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      color: var(--text2);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-close:hover {
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    .modal h2 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .modal-company {
+      color: var(--text2);
+      margin-bottom: 20px;
+    }
+
+    .modal-section {
+      margin-bottom: 20px;
+    }
+
+    .modal-section-title {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text3);
+      margin-bottom: 10px;
+    }
+
+    .modal-section p,
+    .modal-section ul {
+      color: var(--text2);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .modal-section ul {
+      padding-left: 18px;
+    }
+
+    .modal-footer {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .modal-footer .btn-apply {
+      flex: 1;
+      padding: 12px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    /* FORM di dalam modal untuk lamaran */
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      color: var(--text3);
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: var(--r-sm);
+      font-size: 14px;
+      outline: none;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--accent);
+    }
+
+    /* TOAST NOTIFICATION (notifikasi kecil di pojok kanan bawah) */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 300;
+      background: var(--card);
+      border: 1px solid var(--green);
+      color: var(--green);
+      padding: 14px 22px;
+      border-radius: var(--r);
+      font-size: 14px;
+      font-weight: 500;
+      transform: translateY(80px);
+      opacity: 0;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* responsive */
+    @media (max-width: 768px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+      }
+
+      h1 {
+        font-size: 36px;
+        letter-spacing: -1px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- ======================== STRUKTUR HTML ======================== -->
-<nav>
-  <div class="logo">LOKER<span>KU</span></div>
-  <div class="nav-links">
-    <a href="#">Lowongan</a> <a href="#">Perusahaan</a>
-    <button class="btn-nav" onclick="showToast('Fitur segera hadir!')">Masuk / Daftar</button>
-  </div>
-</nav>
-
-<section class="hero">
-  <div class="search-wrap">
-    <div class="search-field">
-      <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input id="searchInput" type="text" placeholder="Posisi, keahlian, atau kata kunci..." oninput="filterJobs()">
+  <!-- ======================== STRUKTUR HTML ======================== -->
+  <nav>
+    <div class="logo">LOKER<span>KU</span></div>
+    <div class="nav-links">
+      <a href="#">Lowongan</a> <a href="#">Perusahaan</a>
+      <button class="btn-nav" onclick="showToast('Fitur segera hadir!')">Masuk / Daftar</button>
     </div>
-    <div class="search-field" style="max-width:180px">
-      <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-      <input id="locationInput" type="text" placeholder="Kota / Remote" oninput="filterJobs()">
-    </div>
-    <button class="btn-search" onclick="filterJobs()">Cari Lowongan</button>
-  </div>
-  <div class="hero-stats"><span><strong>24.800+</strong> lowongan aktif</span><span><strong>5.200+</strong> perusahaan</span><span><strong>820.000+</strong> pencari kerja</span></div>
-</section>
+  </nav>
 
-<div class="container">
+  <section class="hero">
+    <div class="search-wrap">
+      <div class="search-field">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8" />
+          <path d="m21 21-4.35-4.35" />
+        </svg>
+        <input id="searchInput" type="text" placeholder="Posisi, keahlian, atau kata kunci..." oninput="filterJobs()">
+      </div>
+      <div class="search-field" style="max-width:180px">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+          <circle cx="12" cy="10" r="3" />
+        </svg>
+        <input id="locationInput" type="text" placeholder="Kota / Remote" oninput="filterJobs()">
+      </div>
+      <button class="btn-search" onclick="filterJobs()">Cari Lowongan</button>
+    </div>
+    <div class="hero-stats"><span><strong>24.800+</strong> lowongan aktif</span><span><strong>5.200+</strong>
+        perusahaan</span><span><strong>820.000+</strong> pencari kerja</span></div>
+  </section>
+
+  <div class="container">
 
     <main>
       <div class="jobs-header">
         <div class="jobs-count" id="jobsCount"><strong>8</strong> lowongan ditemukan</div>
       </div>
       <div class="jobs-list" id="jobsList"></div>
-      <div class="pagination"><button class="page-btn">&#8249;</button><button class="page-btn active">1</button><button class="page-btn">2</button><button class="page-btn">3</button><button class="page-btn">&#8250;</button></div>
+      <div class="pagination"><button class="page-btn">&#8249;</button><button class="page-btn active">1</button><button
+          class="page-btn">2</button><button class="page-btn">3</button><button class="page-btn">&#8250;</button></div>
     </main>
   </div>
-</div>
+  </div>
 
-<!-- MODAL POPUP untuk detail lowongan & form lamaran -->
-<div class="modal-overlay" id="jobModal" onclick="closeModalOnOverlay(event)">
-  <div class="modal" id="modalContent"><button class="modal-close" onclick="closeModal()">✕</button><div id="modalBody"></div></div>
-</div>
+  <!-- MODAL POPUP untuk detail lowongan & form lamaran -->
+  <div class="modal-overlay" id="jobModal" onclick="closeModalOnOverlay(event)">
+    <div class="modal" id="modalContent"><button class="modal-close" onclick="closeModal()">✕</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
 
-<div class="toast" id="toast">✓ <span id="toastMsg"></span></div>
+  <div class="toast" id="toast">✓ <span id="toastMsg"></span></div>
 
-<script>
-// ======================== DATA LOWONGAN (array of objects) ========================
-const jobs = [
-  { id:1, featured:true, title:"Senior Frontend Engineer", company:"Gojek", logo:"GJ", logoBg:"#00aa5b", logoColor:"#fff", location:"Jakarta Selatan", type:"Full-time", tag:"Full-time", exp:"1–3 Tahun", salary:"Rp 25–40 jt/bln", salaryNum:25, posted:"2 jam lalu", desc:"Bergabunglah dengan tim Product Engineering ...", skills:["React","TypeScript","Node.js","GraphQL"],status:"open",requirements:["Min. 3 tahun pengalaman React/Vue/Angular","Familiar dengan design system","Pengalaman testing"], benefits:["BPJS Kesehatan","Saham perusahaan","Work from anywhere","Budget pelatihan"] },  
+  <script>
+    // ======================== DATA LOWONGAN (array of objects) ========================
+    const jobs = [
+      { id: 1, featured: true, title: "Senior Frontend Engineer", company: "Gojek", logo: "GJ", logoBg: "#00aa5b", logoColor: "#fff", location: "Jakarta Selatan", type: "Full-time", tag: "Full-time", exp: "1–3 Tahun", salary: "Rp 25–40 jt/bln", salaryNum: 25, posted: "2 jam lalu", desc: "Bergabunglah dengan tim Product Engineering ...", skills: ["React", "TypeScript", "Node.js", "GraphQL"], status: "open", requirements: ["Min. 3 tahun pengalaman React/Vue/Angular", "Familiar dengan design system", "Pengalaman testing"], benefits: ["BPJS Kesehatan", "Saham perusahaan", "Work from anywhere", "Budget pelatihan"] },
 
-  { id:2, featured:true, title:"Data Scientist – Risk & Fraud", company:"Bank Central Asia", logo:"BCA", logoBg:"#003f88", logoColor:"#fff", location:"Jakarta Pusat", type:"Full-time", tag:"Full-time", exp:"1–3 Tahun", salary:"Rp 18–28 jt/bln", salaryNum:18, status:"new", posted:"1 hari lalu", desc:"Membangun model machine learning untuk deteksi fraud.", skills:["Python","SQL","Scikit-learn","Spark"], requirements:["S1/S2 Statistik/Informatika","Pengalaman anomaly detection","Big data tools"], benefits:["Asuransi jiwa","Program karir","KPR","Bonus kinerja"] },  
-  
-  { id:3, featured:false, title:"Product Manager – Growth", company:"Tokopedia", logo:"TP", logoBg:"#42b549", logoColor:"#fff", location:"Remote", type:"Remote", tag:"Remote", exp:"3–5 Tahun", salary:"Rp 30–50 jt/bln", salaryNum:30, status:"open", posted:"3 hari lalu", desc:"Pimpin strategi pertumbuhan platform.", skills:["A/B Testing","Analytics","SQL","Figma"], requirements:["Min. 3 tahun Product Manager","Growth hacking","Data analytics"], benefits:["100% Remote","Home office allowance","Health insurance","Equity"] },
-  { id:4, featured:false, title:"UI/UX Designer", company:"Ruangguru", logo:"RG", logoBg:"#e63946", logoColor:"#fff", location:"Jakarta / Remote", type:"Remote", tag:"Remote", exp:"1–3 Tahun", salary:"Rp 12–20 jt/bln", salaryNum:12, status:"new", posted:"5 hari lalu", desc:"Rancang pengalaman belajar digital.", skills:["Figma","Prototyping","User Research"], requirements:["Min. 2 tahun UI/UX","Portfolio kuat","User interview"], benefits:["Hybrid","Free akses kursus","Asuransi keluarga"] },
-                                            
-  { id:5, featured:false, title:"DevOps Engineer", company:"Traveloka", logo:"TV", logoBg:"#0770CF", logoColor:"#fff", location:"Bali / Remote", type:"Remote", tag:"Remote", exp:"3–5 Tahun", salary:"Rp 22–35 jt/bln", salaryNum:22, status:"open", posted:"1 minggu lalu", desc:"Kelola infrastruktur cloud berskala besar.", skills:["Kubernetes","AWS","Terraform","CI/CD"], requirements:["Min. 3 tahun DevOps","K8s production","Monitoring tools"], benefits:["Travel allowance","Flexible hours","Laptop pilihan","Learning budget"] },
-  { id:6, featured:false, title:"Marketing Specialist – Digital", company:"Shopee Indonesia", logo:"SP", logoBg:"#ee4d2d", logoColor:"#fff", location:"Jakarta Selatan", type:"Full-time", tag:"Full-time", exp:"Fresh Graduate", salary:"Rp 7–12 jt/bln", salaryNum:7, status:"open", posted:"2 minggu lalu", desc:"Kampanye digital performance marketing.", skills:["Google Ads","Meta Ads","Analytics"], requirements:["S1 semua jurusan, IPK>3.00","Fresh graduate","Passion e-commerce"], benefits:["Makan siang gratis","BPJS","Diskon","Fast-track career"] },       
-            
-  { id:7, featured:false, title:"Mobile Developer (iOS)", company:"OVO", logo:"OVO", logoBg:"#4c3494", logoColor:"#fff", location:"Jakarta", type:"Full-time", tag:"Full-time", exp:"1–3 Tahun", salary:"Rp 15–25 jt/bln", salaryNum:15, status:"new", posted:"3 hari lalu", desc:"Kembangkan fitur finansial.", skills:["Swift","SwiftUI","Xcode","REST API"], requirements:["Min. 2 tahun iOS","Swift & Objective-C","Publish ke App Store"], benefits:["Asuransi premium","OVO Points","WFH","Mental health"] },
-  { id:8, featured:false, title:"Graphic Designer Intern", company:"Kompas Gramedia", logo:"KG", logoBg:"#c62828", logoColor:"#fff", location:"Jakarta Pusat", type:"Internship", tag:"Internship", exp:"Fresh Graduate", salary:"Rp 3–5 jt/bln", salaryNum:3, status:"open", posted:"1 minggu lalu", desc:"Magang di tim kreatif media.", skills:["Adobe Illustrator","Photoshop","InDesign"], requirements:["Mahasiswa aktif/DKV","Portfolio","Komit 3 bulan"], benefits:["Sertifikat","Mentoring","Akses Gramedia","Potensi karyawan"] }
-];
+      { id: 2, featured: true, title: "Data Scientist – Risk & Fraud", company: "Bank Central Asia", logo: "BCA", logoBg: "#003f88", logoColor: "#fff", location: "Jakarta Pusat", type: "Full-time", tag: "Full-time", exp: "1–3 Tahun", salary: "Rp 18–28 jt/bln", salaryNum: 18, status: "new", posted: "1 hari lalu", desc: "Membangun model machine learning untuk deteksi fraud.", skills: ["Python", "SQL", "Scikit-learn", "Spark"], requirements: ["S1/S2 Statistik/Informatika", "Pengalaman anomaly detection", "Big data tools"], benefits: ["Asuransi jiwa", "Program karir", "KPR", "Bonus kinerja"] },
 
-let activeTag = '';          // tag filter aktif (Remote, Full-time dll)
-let currentJobs = [...jobs]; // array yang akan ditampilkan (bisa berubah karena sorting/filter)
+      { id: 3, featured: false, title: "Product Manager – Growth", company: "Tokopedia", logo: "TP", logoBg: "#42b549", logoColor: "#fff", location: "Remote", type: "Remote", tag: "Remote", exp: "3–5 Tahun", salary: "Rp 30–50 jt/bln", salaryNum: 30, status: "open", posted: "3 hari lalu", desc: "Pimpin strategi pertumbuhan platform.", skills: ["A/B Testing", "Analytics", "SQL", "Figma"], requirements: ["Min. 3 tahun Product Manager", "Growth hacking", "Data analytics"], benefits: ["100% Remote", "Home office allowance", "Health insurance", "Equity"] },
+      { id: 4, featured: false, title: "UI/UX Designer", company: "Ruangguru", logo: "RG", logoBg: "#e63946", logoColor: "#fff", location: "Jakarta / Remote", type: "Remote", tag: "Remote", exp: "1–3 Tahun", salary: "Rp 12–20 jt/bln", salaryNum: 12, status: "new", posted: "5 hari lalu", desc: "Rancang pengalaman belajar digital.", skills: ["Figma", "Prototyping", "User Research"], requirements: ["Min. 2 tahun UI/UX", "Portfolio kuat", "User interview"], benefits: ["Hybrid", "Free akses kursus", "Asuransi keluarga"] },
 
-// helper: mendapatkan class dan label status (hot/new/open)
-function getStatusLabel(status) {
-  const map = { hot: ['status-hot','🔥 Hot'], new: ['status-new','✦ Baru'], open: ['status-open','● Buka'] };
-  return map[status] || map.open;
-}
+      { id: 5, featured: false, title: "DevOps Engineer", company: "Traveloka", logo: "TV", logoBg: "#0770CF", logoColor: "#fff", location: "Bali / Remote", type: "Remote", tag: "Remote", exp: "3–5 Tahun", salary: "Rp 22–35 jt/bln", salaryNum: 22, status: "open", posted: "1 minggu lalu", desc: "Kelola infrastruktur cloud berskala besar.", skills: ["Kubernetes", "AWS", "Terraform", "CI/CD"], requirements: ["Min. 3 tahun DevOps", "K8s production", "Monitoring tools"], benefits: ["Travel allowance", "Flexible hours", "Laptop pilihan", "Learning budget"] },
+      { id: 6, featured: false, title: "Marketing Specialist – Digital", company: "Shopee Indonesia", logo: "SP", logoBg: "#ee4d2d", logoColor: "#fff", location: "Jakarta Selatan", type: "Full-time", tag: "Full-time", exp: "Fresh Graduate", salary: "Rp 7–12 jt/bln", salaryNum: 7, status: "open", posted: "2 minggu lalu", desc: "Kampanye digital performance marketing.", skills: ["Google Ads", "Meta Ads", "Analytics"], requirements: ["S1 semua jurusan, IPK>3.00", "Fresh graduate", "Passion e-commerce"], benefits: ["Makan siang gratis", "BPJS", "Diskon", "Fast-track career"] },
 
-// fungsi render utama: menampilkan list lowongan ke dalam DOM
-function renderJobs(list) {
-  const container = document.getElementById('jobsList');
-  document.getElementById('jobsCount').innerHTML = `<strong>${list.length}</strong> lowongan ditemukan`;
-  if (list.length === 0) {
-    container.innerHTML = `<div style="text-align:center;padding:60px 20px;color:var(--text3)">
+      { id: 7, featured: false, title: "Mobile Developer (iOS)", company: "OVO", logo: "OVO", logoBg: "#4c3494", logoColor: "#fff", location: "Jakarta", type: "Full-time", tag: "Full-time", exp: "1–3 Tahun", salary: "Rp 15–25 jt/bln", salaryNum: 15, status: "new", posted: "3 hari lalu", desc: "Kembangkan fitur finansial.", skills: ["Swift", "SwiftUI", "Xcode", "REST API"], requirements: ["Min. 2 tahun iOS", "Swift & Objective-C", "Publish ke App Store"], benefits: ["Asuransi premium", "OVO Points", "WFH", "Mental health"] },
+      { id: 8, featured: false, title: "Graphic Designer Intern", company: "Kompas Gramedia", logo: "KG", logoBg: "#c62828", logoColor: "#fff", location: "Jakarta Pusat", type: "Internship", tag: "Internship", exp: "Fresh Graduate", salary: "Rp 3–5 jt/bln", salaryNum: 3, status: "open", posted: "1 minggu lalu", desc: "Magang di tim kreatif media.", skills: ["Adobe Illustrator", "Photoshop", "InDesign"], requirements: ["Mahasiswa aktif/DKV", "Portfolio", "Komit 3 bulan"], benefits: ["Sertifikat", "Mentoring", "Akses Gramedia", "Potensi karyawan"] }
+    ];
+
+    let activeTag = '';          // tag filter aktif (Remote, Full-time dll)
+    let currentJobs = [...jobs]; // array yang akan ditampilkan (bisa berubah karena sorting/filter)
+
+    // helper: mendapatkan class dan label status (hot/new/open)
+    function getStatusLabel(status) {
+      const map = { hot: ['status-hot', '🔥 Hot'], new: ['status-new', '✦ Baru'], open: ['status-open', '● Buka'] };
+      return map[status] || map.open;
+    }
+
+    // fungsi render utama: menampilkan list lowongan ke dalam DOM
+    function renderJobs(list) {
+      const container = document.getElementById('jobsList');
+      document.getElementById('jobsCount').innerHTML = `<strong>${list.length}</strong> lowongan ditemukan`;
+      if (list.length === 0) {
+        container.innerHTML = `<div style="text-align:center;padding:60px 20px;color:var(--text3)">
       <div>🔍</div><div>Lowongan tidak ditemukan</div><div>Coba ubah kata kunci atau filter</div></div>`;
-    return;
-  }
-  container.innerHTML = list.map(j => {
-    const [statusClass, statusText] = getStatusLabel(j.status);
-    return `<div class="job-card ${j.featured ? 'featured' : ''}" onclick="openModal(${j.id})">
+        return;
+      }
+      container.innerHTML = list.map(j => {
+        const [statusClass, statusText] = getStatusLabel(j.status);
+        return `<div class="job-card ${j.featured ? 'featured' : ''}" onclick="openModal(${j.id})">
       ${j.featured ? '<div class="featured-tag">⭐ Unggulan</div>' : ''}
       <div class="job-top">
         <div class="company-logo" style="background:${j.logoBg};color:${j.logoColor}">${j.logo}</div>
@@ -403,27 +986,27 @@ function renderJobs(list) {
         <button class="btn-apply" onclick="event.stopPropagation();openApplyModal(${j.id})">Lamar →</button></div>
       </div>
     </div>`;
-  }).join('');
-}
+      }).join('');
+    }
 
-// filter berdasarkan input teks (search, lokasi) + activeTag
-function filterJobs() {
-  const q = document.getElementById('searchInput').value.toLowerCase();
-  const loc = document.getElementById('locationInput').value.toLowerCase();
-  currentJobs = jobs.filter(j => {
-    const matchQ = !q || j.title.toLowerCase().includes(q) || j.company.toLowerCase().includes(q) || j.skills.some(s => s.toLowerCase().includes(q));
-    const matchLoc = !loc || j.location.toLowerCase().includes(loc);
-    const matchTag = !activeTag || j.tag === activeTag || j.type === activeTag || (activeTag === 'Fresh Graduate' && j.exp === 'Fresh Graduate') || (activeTag === 'Internship' && j.type === 'Internship');
-    return matchQ && matchLoc && matchTag;
-  });
-  renderJobs(currentJobs);
-}
+    // filter berdasarkan input teks (search, lokasi) + activeTag
+    function filterJobs() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const loc = document.getElementById('locationInput').value.toLowerCase();
+      currentJobs = jobs.filter(j => {
+        const matchQ = !q || j.title.toLowerCase().includes(q) || j.company.toLowerCase().includes(q) || j.skills.some(s => s.toLowerCase().includes(q));
+        const matchLoc = !loc || j.location.toLowerCase().includes(loc);
+        const matchTag = !activeTag || j.tag === activeTag || j.type === activeTag || (activeTag === 'Fresh Graduate' && j.exp === 'Fresh Graduate') || (activeTag === 'Internship' && j.type === 'Internship');
+        return matchQ && matchLoc && matchTag;
+      });
+      renderJobs(currentJobs);
+    }
 
-// membuka modal detail lowongan (berdasarkan id)
-function openModal(id) {
-  const j = jobs.find(x => x.id === id);
-  const [statusClass, statusText] = getStatusLabel(j.status);
-  document.getElementById('modalBody').innerHTML = `
+    // membuka modal detail lowongan (berdasarkan id)
+    function openModal(id) {
+      const j = jobs.find(x => x.id === id);
+      const [statusClass, statusText] = getStatusLabel(j.status);
+      document.getElementById('modalBody').innerHTML = `
     <div style="display:flex;gap:14px;margin-bottom:16px"><div class="company-logo" style="background:${j.logoBg};color:${j.logoColor};width:56px;height:56px;font-size:18px">${j.logo}</div>
     <div><h2>${j.title}</h2><div class="modal-company">${j.company} · <span class="status-badge ${statusClass}">${statusText}</span></div></div></div>
     <div class="job-meta" style="margin-bottom:16px"><span class="meta-chip">📍${j.location}</span><span class="meta-chip">${j.type}</span><span class="meta-chip">${j.exp}</span><span class="meta-chip" style="color:var(--green);border-color:var(--green-bg);background:var(--green-bg)">${j.salary}</span></div>
@@ -431,15 +1014,15 @@ function openModal(id) {
     <div class="modal-section"><div class="modal-section-title">Kualifikasi</div><ul>${j.requirements.map(r => `<li>${r}</li>`).join('')}</ul></div>
     <div class="modal-section"><div class="modal-section-title">Benefit</div><ul>${j.benefits.map(b => `<li>✓ ${b}</li>`).join('')}</ul></div>
     <div class="modal-section"><div class="modal-section-title">Keahlian</div><div class="job-skills">${j.skills.map(s => `<span class="skill-tag">${s}</span>`).join('')}</div></div>
-    <div class="modal-footer"><button class="btn-apply" onclick="openApplyModal(${j.id});closeModal()">Lamar Sekarang →</button><button class="btn-save" onclick="saveJob(${j.id})">🔖 Simpan</button></div>
+    <div class="modal-footer"><button class="btn-apply" onclick="openApplyModal(${j.id})">Lamar Sekarang →</button><button class="btn-save" onclick="saveJob(${j.id})">🔖 Simpan</button></div>
   `;
-  document.getElementById('jobModal').classList.add('open');
-}
+      document.getElementById('jobModal').classList.add('open');
+    }
 
-// membuka modal dengan form lamaran sederhana
-function openApplyModal(id) {
-  const j = jobs.find(x => x.id === id);
-  document.getElementById('modalBody').innerHTML = `
+    // membuka modal dengan form lamaran sederhana
+    function openApplyModal(id) {
+      const j = jobs.find(x => x.id === id);
+      document.getElementById('modalBody').innerHTML = `
     <h2>Lamar Pekerjaan</h2><div class="modal-company">${j.title} · ${j.company}</div>
     <div class="form-group"><label>Nama Lengkap *</label><input type="text" placeholder="Masukkan nama lengkap"></div>
     <div class="form-group"><label>Email *</label><input type="email" placeholder="email@contoh.com"></div>
@@ -448,18 +1031,19 @@ function openApplyModal(id) {
     <div class="form-group"><label>Cover Letter</label><textarea rows="4" placeholder="Ceritakan mengapa kamu cocok..."></textarea></div>
     <button class="btn-apply" style="width:100%;padding:14px" onclick="submitApplication()">Kirim Lamaran ✓</button>
   `;
-  document.getElementById('jobModal').classList.add('open');
-}
+      document.getElementById('jobModal').classList.add('open');
+    }
 
-// simulasi submit lamaran: tutup modal, tampilkan toast sukses
-function submitApplication() { closeModal(); showToast('Lamaran berhasil dikirim! Perusahaan akan menghubungimu.'); }
-function closeModal() { document.getElementById('jobModal').classList.remove('open'); }
-function closeModalOnOverlay(e) { if (e.target === document.getElementById('jobModal')) closeModal(); }
-function saveJob(id) { const j = jobs.find(x => x.id === id); showToast(`"${j.title}" disimpan ke wishlist!`); }
-function showToast(msg) { const t = document.getElementById('toast'); document.getElementById('toastMsg').textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
+    // simulasi submit lamaran: tutup modal, tampilkan toast sukses
+    function submitApplication() { closeModal(); showToast('Lamaran berhasil dikirim! Perusahaan akan menghubungimu.'); }
+    function closeModal() { document.getElementById('jobModal').classList.remove('open'); }
+    function closeModalOnOverlay(e) { if (e.target === document.getElementById('jobModal')) closeModal(); }
+    function saveJob(id) { const j = jobs.find(x => x.id === id); showToast(`"${j.title}" disimpan ke wishlist!`); }
+    function showToast(msg) { const t = document.getElementById('toast'); document.getElementById('toastMsg').textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
 
-// render awal ketika halaman dimuat
-renderJobs(jobs);
-</script>
+    // render awal ketika halaman dimuat
+    renderJobs(jobs);
+  </script>
 </body>
+
 </html>
